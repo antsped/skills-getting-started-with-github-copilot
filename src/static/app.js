@@ -22,7 +22,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const participantsMarkup = details.participants.length
           ? `<p><strong>Participants:</strong></p><ul class="participants-list">${details.participants
-              .map((participant) => `<li>${participant}</li>`)
+              .map((participant) => `
+                <li class="participant-item">
+                  <span class="participant-email">${participant}</span>
+                  <button class="delete-participant-btn" title="Remove participant" data-activity="${encodeURIComponent(name)}" data-email="${encodeURIComponent(participant)}">✖️</button>
+                </li>`)
               .join("")}</ul>`
           : `<p class="no-participants"><strong>Participants:</strong> No signups yet</p>`;
 
@@ -35,6 +39,28 @@ document.addEventListener("DOMContentLoaded", () => {
         `;
 
         activitiesList.appendChild(activityCard);
+      // Delegated event handler for delete buttons
+      activitiesList.addEventListener("click", async (e) => {
+        if (e.target.classList.contains("delete-participant-btn")) {
+          const activity = decodeURIComponent(e.target.getAttribute("data-activity"));
+          const email = decodeURIComponent(e.target.getAttribute("data-email"));
+          if (confirm(`Remove ${email} from ${activity}?`)) {
+            try {
+              const response = await fetch(`/activities/${encodeURIComponent(activity)}/remove?email=${encodeURIComponent(email)}`, {
+                method: "POST"
+              });
+              const result = await response.json();
+              if (response.ok) {
+                fetchActivities();
+              } else {
+                alert(result.detail || "Failed to remove participant.");
+              }
+            } catch (err) {
+              alert("Error removing participant.");
+            }
+          }
+        }
+      });
 
         // Add option to select dropdown
         const option = document.createElement("option");
