@@ -66,7 +66,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 </li>`)
               .join("")}</ul></div>`
           : `<p class="no-participants"><strong>Participants:</strong> No signups yet</p>`;
-      );
+      
 
       const result = await response.json();
 
@@ -110,11 +110,12 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       }
     });
+  } catch (error) {
       messageDiv.className = "error";
       messageDiv.classList.remove("hidden");
       console.error("Error signing up:", error);
     }
-  });
+  
 
   // Initialize app
   fetchActivities();
