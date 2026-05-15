@@ -87,6 +87,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }, 5000);
     } catch (error) {
       messageDiv.textContent = "Failed to sign up. Please try again.";
+    }
     // Delegated event handler for delete buttons
     activitiesList.addEventListener("click", async (e) => {
       if (e.target.classList.contains("delete-participant-btn")) {
