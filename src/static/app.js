@@ -110,12 +110,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       }
     });
-  } catch (error) {
-      messageDiv.className = "error";
-      messageDiv.classList.remove("hidden");
-      console.error("Error signing up:", error);
-    }
-  
 
   // Initialize app
   fetchActivities();
